@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Optimization</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEDSwxXkLznsqgHJP9uoJFmRf6WxN-Eu0&libraries=places"></script>
+    <style>
+        /* Style for the loading spinner */
+        #loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        #loading img {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+    <script>
+        function initializeAutocomplete() {
+            const originInput = document.getElementById("origin");
+            const destinationInput = document.getElementById("destination");
+
+            // Initialize Google Places Autocomplete
+            new google.maps.places.Autocomplete(originInput);
+            new google.maps.places.Autocomplete(destinationInput);
+        }
+
+        function showLoadingSpinner() {
+            document.getElementById("loading").style.display = "block";
+        }
+
+        // Initialize the autocomplete fields when the page loads
+        window.onload = initializeAutocomplete;
+    </script>
+</head>
+<body>
+   <div class="fb"> 
+    <img src="pngwing.com.png" alt="">
+    <h1>Route Optimization</h1>
+
+    <!-- Loading spinner -->
+    <div id="loading">
+        <img src="static/loading.gif" alt="Loading...">
+    </div>
+
+    <form action="/optimize" method="POST" onsubmit="showLoadingSpinner()">
+        <label for="origin">Origin:</label>
+        <input type="text" id="origin" name="origin" placeholder="Enter origin" required>
+        <br><br>
+
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+        <br><br>
+<button type="submit" >Optimize Route</button>
+ </form>
+</div>
+</body>
+</html>

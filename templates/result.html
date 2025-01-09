@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Optimization Results</title>
+</head>
+<body>
+    <h1>Route Optimization Results</h1>
+
+    <!-- Display Map -->
+    <h2>Route Map</h2>
+    <iframe src="{{ map_html }}" width="100%" height="500px" frameborder="0"></iframe>
+
+    <!-- Display Route Data -->
+    <h2>Route Information</h2>
+    <p><strong>Start Location:</strong> {{ route['routes'][0]['legs'][0]['start_address'] }}</p>
+    <p><strong>End Location:</strong> {{ route['routes'][0]['legs'][0]['end_address'] }}</p>
+    <p><strong>Distance:</strong> {{ route['routes'][0]['legs'][0]['distance']['text'] }}</p>
+    <p><strong>Duration:</strong> {{ route['routes'][0]['legs'][0]['duration']['text'] }}</p>
+
+    <!-- Display Traffic Data -->
+    <h2>Traffic Information</h2>
+    <p><strong>Traffic Level:</strong> {{ traffic['level'] or "Not Available" }}</p>
+    <p><strong>Traffic Description:</strong> {{ traffic['description'] or "Not Available" }}</p>
+
+    <!-- Display Air Quality Data -->
+    <h2>Air Quality Information</h2>
+    <p><strong>AQI:</strong> {{ air_quality['aqi'] or "Not Available" }}</p>
+    <p><strong>PM10:</strong> {{ air_quality['pm10'] or "Not Available" }}</p>
+    <p><strong>PM2.5:</strong> {{ air_quality['pm25'] or "Not Available" }}</p>
+
+    <!-- Display Emissions Data -->
+    <h2>Estimated Emissions</h2>
+    <p><strong>CO2 Emissions (Car):</strong> {{ emissions['car'] or "Not Available" }} kg</p>
+    <p><strong>CO2 Emissions (Truck):</strong> {{ emissions['truck'] or "Not Available" }} kg</p>
+
+    <!-- Display Weather Data -->
+    <h2>Weather Information</h2>
+    <p><strong>Weather Description:</strong> {{ weather['description'] or "Not Available" }}</p>
+    <p><strong>Rainfall (last hour):</strong> {{ weather['rain'] or "Not Available" }} mm</p>
+</body>
+</html>
