@@ -10,10 +10,10 @@ import requests
 app = Flask(__name__)
 
 API_KEYS = {
-    "google_maps": "AIzaSyDEDSwxXkLznsqgHJP9uoJFmRf6WxN-Eu0",
-    "tomtom": "yTXbREIlDXIZ8GQFipRgQzz2VtbQfXPW",
-    "aqicn": "1806d06e33997a60360982843bc6976bc6fe614c",
-    "openweather": "cc9d6173cb1b3ce8bfbed6683c850a67",
+    "google_maps": "KEY",
+    "tomtom": "KEY",
+    "aqicn": "KEY",
+    "openweather":"KEY",
 }
 
 # Ensure the 'static' directory exists
