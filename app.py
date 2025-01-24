@@ -1,11 +1,13 @@
 import os
 import folium
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from utils.routing import get_google_route
 from utils.traffic import get_tomtom_traffic
 from utils.weather import get_air_quality
+from utils.weather import get_weather_and_rain
 from utils.emissions import calculate_emissions
 import requests
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -80,6 +82,7 @@ def optimize():
             f"{destination_lat},{destination_lon}"
         )
         distance_km = route_data['routes'][0]['legs'][0]['distance']['value'] / 1000
+        travel_duration_secs =route_data['routes'][0]['legs'][0]['duration']['value']
     except Exception as e:
         return render_template("error.html", error=f"Error fetching route: {e}")
 
@@ -88,7 +91,9 @@ def optimize():
     try:
         traffic_data = get_tomtom_traffic(API_KEYS['tomtom'], origin_lat, origin_lon)
         traffic_level = traffic_data.get('flowSegmentData', {}).get('currentSpeed', traffic_level)
-        traffic_description = traffic_data.get('flowSegmentData', {}).get('currentTravelTime', traffic_description)
+        traffic_description = traffic_data.get('flowSegmentData', {}).get('currentTravelTime', traffic_description) / 60
+        traffic_description = f"{round(traffic_description, 2)}"
+
     except Exception as e:
         print(f"Error fetching traffic data: {e}")
 
@@ -102,6 +107,15 @@ def optimize():
         pm25 = air_quality['data']['iaqi'].get('pm25', {}).get('v', "N/A")
     except Exception:
         pass
+
+    # Get current time and calculate arrival time
+    current_time = datetime.now()
+    travel_duration = timedelta(seconds=travel_duration_secs)
+    approximate_arrival_time = current_time + travel_duration
+
+    # Format times
+    current_time_formatted = current_time.strftime("%d-%m-%Y   %H:%M:%S")
+    approximate_arrival_time_formatted = approximate_arrival_time.strftime("%d-%m-%Y   %H:%M:%S")
 
     # Weather and Rain
     rain_info, weather_description = "N/A", "N/A"
@@ -141,6 +155,8 @@ def optimize():
         air_quality={"aqi": aqi, "pm10": pm10, "pm25": pm25},
         emissions={"car": car_emissions, "truck": truck_emissions},
         weather={"description": weather_description, "rain": rain_info},
+        current_time=current_time_formatted,
+        approximate_arrival_time=approximate_arrival_time_formatted,
         map_html=map_html
     )
 
@@ -172,6 +188,7 @@ def decode_polyline(polyline):
         lng += dlng
         coordinates.append([lat / 1e5, lng / 1e5])
     return coordinates
+
 
 if __name__ == '__main__':
     app.run(debug=True)
