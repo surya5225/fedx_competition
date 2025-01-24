@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Route Optimization</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEDSwxXkLznsqgHJP9uoJFmRf6WxN-Eu0&libraries=places"></script>
     <style>
         /* Style for the loading spinner */
         #loading {
             display: none;
             position: fixed;
-            top: 50%;
+            top: 75%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1000;
@@ -42,7 +42,7 @@
 </head>
 <body>
    <div class="fb"> 
-    <img src="pngwing.com.png" alt="">
+    <img src="static/pngwing.png" alt="">
     <h1>Route Optimization</h1>
 
     <!-- Loading spinner -->
